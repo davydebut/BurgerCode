@@ -110,3 +110,11 @@ body {
 .help-inline {
     color: red;
 }
+
+a{
+    text-decoration: none;
+    color: #e7480f;
+}
+a:focus, a:hover {
+    color: #c13c0d;
+}

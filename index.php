@@ -1,10 +1,15 @@
         <?php
+        include 'assets/functions.php';
         include 'partials/header.php';
+        include 'partials/logo.php';
+
         ?>
         <div class="container site">
 
-            <h1 class="text-logo"><span class="bi-shop"></span> Burger Code <span class="bi-shop"></span></h1>
-
+            <p class="thank-you" style="display:<?php if ($isSuccess) echo 'block';
+                                                else echo 'none'; ?>;">Vous êtes bien inscrit !</p>
+            <p class="thank-you" style="display:<?php if ($connect) echo 'block';
+                                                else echo 'none'; ?>;">Vous êtes connecté <?php echo $pseudo; ?> !</p>
             <?php
             require 'admin/database.php';
 
@@ -28,7 +33,7 @@
                 <div class="col-md-6">
                     <div class="form-group nav-pills">
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link">connexion</a>
+                            <a href="connection.php" class="nav-link">connexion</a>
                         </li>
                     </div>
                 </div>
@@ -65,7 +70,7 @@
                                     <div class="caption">
                                         <h4>' . $item['name'] . '</h4>
                                         <p>' . $item['description'] . '</p>
-                                        <a href="#" class="btn btn-order" role="button"><span class="bi-cart-fill"></span> Commander</a>
+                                        <a href="single.php?id=' . $item['id'] . '" class="btn btn-order" role="button"><span class="bi-cart-fill"></span> Commander</a>
                                     </div>
                                 </div>
                             </div>';
@@ -79,6 +84,4 @@
             ?>
 
         </div>
-        </body>
-
-        </html>
+        <?php include 'partials/footer.php'; ?>
