@@ -6,10 +6,11 @@ function getPost($id)
     $db = Database::connect();
     $statement = $db->prepare('SELECT * FROM items WHERE id = ?');
     $statement->execute(array($id));
-    $item = $statement->fetch();
+    $item = $statement->fetch(PDO::FETCH_ASSOC);
     return $item;
 }
 // fonction pour afficher les commentaires d'un post
+// faire une jointure pour le name
 function getComments($id)
 {
     $db = Database::connect();
@@ -19,28 +20,27 @@ function getComments($id)
     return $comments;
 }
 // fonction pour ajouter un commentaire
-function addComment($item_id, $author_id, $content)
+function addComment($item_id, $content)
 {
     $db = Database::connect();
-    $statement = $db->prepare('INSERT INTO comments (item_id, author_id, content) VALUES (?, ?, ?)');
-    $statement->execute(array($item_id, $author_id, $content));
+    $join = $db->prepare('SELECT * FROM comments INNER JOIN items ON comments.item_id = items.id WHERE comments.item_id = ?');
+    $join = $db->prepare('INSERT INTO comments (item_id, content) VALUES (?, ?)');
+    $join->execute(array($item_id, $content));
+}
+// La différence entre query prepare et exec depend de ce que va préparer la requete
+// envoyer le pwd_hash
+function addUsers($pseudo, $email, $pwd){
+    $db = Database::connect();
+    $statement = $db->prepare("INSERT INTO users VALUES (NULL, :pseudo, :pwd, :mail)");
+    $statement->bindParam(':pseudo',$pseudo);
+    $statement->bindParam(':mail',$email);
+    $statement->bindParam(':pwd',$pwd);
+    $statement->execute();
 }
 
-
-$connect = false;
-if (isset($_POST['connection'])) {
-    $email = htmlspecialchars($_POST['email']);
-    $password = htmlspecialchars($_POST['password']);
+function getUsers($email){
     $db = Database::connect();
-    $statement = $db->prepare('SELECT * FROM users WHERE mail = ? AND password = ?');
-    $statement->execute(array($email, $password));
+    $statement = $db->query("SELECT * FROM users WHERE users.mail = '$email'");
     $user = $statement->fetch();
-    if (!password_verify($password, $user['pwd'])) {
-        echo '<p>Mauvais mot de passe</p>';
-    } else {
-        session_start();
-        $_SESSION['pseudo'] = $user['pseudo'];
-        header('Location: index.php?vous_etes_connecte');
-        $connect = true;
-    }
+    return $user;
 }

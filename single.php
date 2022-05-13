@@ -2,6 +2,10 @@
 include 'partials/header.php';
 include 'assets/functions.php';
 include 'partials/logo.php';
+require 'admin/database.php';
+
+session_start();
+$pseudo = $_SESSION['pseudo'];
 
 echo '<div class="container site">
         <div class="col-md-2 col-lg-2">
@@ -10,7 +14,7 @@ echo '<div class="container site">
             </div>
         </div>
     </div>';
-// img/' . $item['image'] . '" class="img-fluid" alt="..."
+
 $post = getPost($_GET['id']);
 ?>
 <div class="container admin site">
@@ -22,24 +26,27 @@ $post = getPost($_GET['id']);
             <br>
             <?php echo '<p>' . $post['description'] . '</p>'; ?>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 p-3">
             <h1>Commentaires</h1>
             <br>
-            <form method="post">
+            <form method="post" action="comment.php">
                 <div class="form-group">
                     <textarea name="comment" id="comment" class="form-control" placeholder="Votre commentaire"></textarea>
                 </div>
                 <br>
-                <button type="submit" id="submit" class="btn btn-primary">Envoyer</button>
+                <!-- <button type="button" name="submit" id="submit" class="btn btn-primary">Envoyer</button> -->
+                <input type="submit" name="submit" id="submit" class="btn btn-primary" value="Envoyer">
             </form>
             <br>
             <?php
-            $comments = getComments($_GET['id']);
+            $post_id = $post['id'];
+            $comments = getComments($post_id);
+            print_r($post_id);
             if (!empty($comments)) {
                 foreach ($comments as $comment) {
                     echo '<div class="comment">
-                    <p><strong>' . $comment['name'] . '</strong> le ' . $comment['date'] . '</p>
-                    <p>' . $comment['comment'] . '</p>
+                    <p><strong>' . $pseudo . '</strong> le ' . $comment['date'] . '</p>
+                    <p>' . $comment['content'] . '</p>
                      </div>';
                 }
             } else {

@@ -3,13 +3,28 @@
         include 'partials/header.php';
         include 'partials/logo.php';
 
+        $isSuccess = false;
+        $isconnect = false;
+
+        if (isset($_GET['status']) && $_GET['status'] == 'Success') {
+            session_start();
+            $pseudo = $_SESSION['pseudo'];
+            $isSuccess = true;
+        }
+        if (isset($_GET['status']) && $_GET['status']=='Connect'){
+            session_start();
+            $pseudo = $_SESSION['pseudo'];
+            $isconnect = true;
+        }
+
+        
+
         ?>
         <div class="container site">
 
-            <p class="thank-you" style="display:<?php if ($isSuccess) echo 'block';
-                                                else echo 'none'; ?>;">Vous êtes bien inscrit !</p>
-            <p class="thank-you" style="display:<?php if ($connect) echo 'block';
-                                                else echo 'none'; ?>;">Vous êtes connecté <?php echo $pseudo; ?> !</p>
+            <p class="thank-you" style="display:<?php echo $isSuccess ? 'block' : 'none'; ?>; color:white;">Vous êtes bien inscrit !</p>
+            <p class="thank-you" style="display:<?php echo $isconnect ? 'block' : 'none'; ?>; color:white;">Vous êtes connecté <?php echo $pseudo; ?> !</p>
+
             <?php
             require 'admin/database.php';
 

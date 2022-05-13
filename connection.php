@@ -1,21 +1,22 @@
 <?php
 require 'admin/database.php';
 include 'partials/header.php';
-$connect = false;
+include 'assets/functions.php';
+
 
 if (isset($_POST['connection'])) {
     $email = htmlspecialchars($_POST['email']);
     $password = htmlspecialchars($_POST['password']);
-    $db = Database::connect();
-    $statement = $db->query('SELECT * FROM users WHERE mail = "' . $email . '"');
-    $user = $statement->fetch();
-    if (!password_verify($password, $user['pwd'])) {
+    $usersinfo = getUsers($email);
+    var_dump($usersinfo);
+    $hash_password = $usersinfo['pwd'];
+    var_dump($hash_password);
+    if (!password_verify($password, $hash_password)) {
         echo '<p>Mauvais mot de passe</p>';
     } else {
         session_start();
-        $_SESSION['pseudo'] = $user['pseudo'];
-        header('Location: index.php?vous_etes_connecte');
-        $connect = true;
+        $_SESSION['pseudo'] = $usersinfo['pseudo'];
+        header('Location: index.php?status=Connect');
     }
 }
 
