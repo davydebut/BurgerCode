@@ -6,6 +6,10 @@ require 'admin/database.php';
 
 session_start();
 $pseudo = $_SESSION['pseudo'];
+$id = $_GET['id'];
+$_SESSION['id'] = $id;
+$post_id = $_SESSION['id'];
+// var_dump($post_id);
 
 echo '<div class="container site">
         <div class="col-md-2 col-lg-2">
@@ -39,9 +43,9 @@ $post = getPost($_GET['id']);
             </form>
             <br>
             <?php
-            $post_id = $post['id'];
+            // $post_id = $post['id'];
             $comments = getComments($post_id);
-            print_r($post_id);
+            // print_r($post_id);
             if (!empty($comments)) {
                 foreach ($comments as $comment) {
                     echo '<div class="comment">
