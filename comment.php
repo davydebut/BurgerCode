@@ -15,8 +15,8 @@ if (isset($_POST['submit']) && isset($_POST['comment'])) {
    $user_id = $_SESSION['pseudo'];
    $comment = $_POST['comment'];
    $post_id = $_GET['id'];
-   $_SESSION['message'] = 'Votre commentaire a bien été ajouté';
+   $_SESSION['message'] = 'success';
    addComment($comment, $post_id, $user_id);
-   header('Location: single.php?id='.$post_id.'');
+   header('Location: single.php?id='.$post_id.'&message='.$_SESSION['message']);
    exit;
 }
