@@ -50,7 +50,7 @@ $post = getPost($_GET['id']);
                 foreach ($comments as $comment) {
                     echo '<div class="comment">
                     <p><strong>' . $pseudo . '</strong> le ' . $comment['date'] . '</p>
-                    <p>' . $comment['content'] . '</p>
+                    <p>' . $comment['value'] . '</p>
                      </div>';
                 }
             } else {

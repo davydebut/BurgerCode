@@ -15,14 +15,14 @@ function getComments($id)
 {
     $db = Database::connect();
     $statement = $db->prepare('SELECT * FROM comments INNER JOIN items ON comments.item_id = items.id WHERE comments.item_id = ?');
-    $statement->execute();
+    $statement->execute(array($id));
     $comments = $statement->fetchAll(PDO::FETCH_ASSOC);
     return $comments;
 }
 // fonction pour ajouter un commentaire
 function addComment($comment, $post_id, $user_id){
     $db = Database::connect();
-    $statement = $db->prepare('INSERT INTO comments (content, item_id, user_id) VALUES (?, ?, ?)');
+    $statement = $db->prepare('INSERT INTO comments (value, item_id, author_id) VALUES (?, ?, ?)');
     $statement->execute(array($comment, $post_id, $user_id));
 
 }

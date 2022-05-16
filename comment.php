@@ -11,8 +11,7 @@ $_GET['id'] = $post_id;
 // print_r($post_id);
 
 if (isset($_POST['submit']) && isset($_POST['comment'])) {
-   session_start();
-   $user_id = $_SESSION['pseudo'];
+   $user_id = $_SESSION['id'];
    $comment = $_POST['comment'];
    $post_id = $_GET['id'];
    $_SESSION['message'] = 'success';
